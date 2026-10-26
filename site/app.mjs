@@ -1,7 +1,7 @@
 import {fields,labels,missing,handoff,setupPrompt,continuationPrompt,examples} from './core.mjs';
 const $=id=>document.getElementById(id);
 const input=()=>Object.fromEntries(fields.map(k=>[k,$(k).value]));
-function render(){const gaps=missing(input());$('output').value=handoff(input());$('coverage').textContent=gaps.length?`${6-gaps.length}/6 fields filled. Still needed: ${gaps.map(k=>labels[k].toLowerCase()).join(', ')}.`:'6/6 fields filled. Check the facts before sharing.';['copy','download','copy-setup'].forEach(id=>$(id).disabled=gaps.length>0);$('copy-status').textContent='';$('setup-status').textContent='';}
+function render(){const gaps=missing(input());$('output').value=handoff(input());$('setup-preview').value=setupPrompt(input());$('continue-preview').value=continuationPrompt();$('coverage').textContent=gaps.length?`${6-gaps.length}/6 fields filled. Still needed: ${gaps.map(k=>labels[k].toLowerCase()).join(', ')}.`:'6/6 fields filled. Check the facts before sharing.';['copy','download','copy-setup'].forEach(id=>$(id).disabled=gaps.length>0);$('copy-status').textContent='';$('setup-status').textContent='';}
 fields.forEach(k=>$(k).addEventListener('input',render));
 $('handoff-form').addEventListener('submit',e=>e.preventDefault());
 $('load').addEventListener('click',()=>{if(fields.some(k=>$(k).value.trim())&&!window.confirm('Replace the current fields with a fictional example?'))return;const ex=examples[$('example').value];fields.forEach(k=>$(k).value=ex[k]);render();});
