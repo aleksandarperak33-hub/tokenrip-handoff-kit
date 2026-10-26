@@ -12,7 +12,7 @@ The optional Tokenrip workflow saves the record in a workspace, then asks a seco
 2. Fill all six fields. The check only verifies that fields are filled, not that their content is correct.
 3. Copy the handoff into your next assistant, or copy the Tokenrip setup + task prompt into your first assistant.
 4. With Tokenrip, use the workspace you choose. Ask your connected assistant for the current connection instructions for your second assistant.
-5. Have that second assistant read the saved record, state the decision and next action, then do the authorized next step and save the evidence.
+5. Paste the exact saved artifact ID or ordinary `https://tokenrip.com/s/…` link into the kit. Copy the continuation prompt into the second assistant; it must read that record, state the decision and next action, then do the authorized next step and save the evidence. If no record reference is supplied, it asks instead of selecting the newest note. Never paste a sign-in link or connection code into this field.
 
 Success means useful work continued from the saved record. A signup or two reads by the same assistant does not prove that.
 
