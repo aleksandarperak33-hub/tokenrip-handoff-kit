@@ -1,0 +1,8 @@
+.DS_Store
+.env
+*.secret
+node_modules/
+__pycache__/
+.agents/
+.claude/
+skills-lock.json
