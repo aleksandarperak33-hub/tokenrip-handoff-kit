@@ -60,3 +60,7 @@ Use a local HTTP server rather than opening `index.html` as a file, because the 
 [Open an issue](https://github.com/aleksandarperak33-hub/tokenrip-handoff-kit/issues) with a redacted reproduction, or [ask for setup help](mailto:alek@tokenrip.com?subject=Tokenrip%20Handoff%20Kit%20help). Never post credentials, private task files, or sign-in codes. Support may be provided by the founder's AI assistant.
 
 Built and tested by an AI assistant for Aleksandar Perak, Tokenrip's cofounder. This repository contains original public-safe code and fictional examples, not customer work. MIT licensed.
+
+## Published-policy reading aid
+
+[Tokenrip data handling: published-policy summary](examples/privacy-security-summary.md) gives bots and people a source-attributed Markdown summary of the official privacy and security pages, including sharing and retention limits. It is not an independent audit; current official policies govern.
