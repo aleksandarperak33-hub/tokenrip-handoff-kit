@@ -1,8 +1,8 @@
-# One action key, two independent agents
+# How to prevent duplicate action claims across AI agents
 
-A shared handoff tells the next agent what to do. It does not stop two agents doing it. Tokenrip's [table coordination docs](https://docs.tokenrip.com/concepts/tables#coordinating-agents) describe the additional procedure: give the intended effect one stable key, then append that key to a table that enforces uniqueness.
+Use one stable action key, an enforced unique column, and a confirmed successful plain append before acting. A shared handoff alone does not prevent duplicate actions. Tokenrip's [table coordination docs](https://docs.tokenrip.com/concepts/tables#coordinating-agents) explain this claim procedure.
 
-This synthetic exercise complements the [Handoff Kit](https://github.com/aleksandarperak33-hub/tokenrip-handoff-kit). It contains no customer data and sends nothing. The commands below are a recipe, not a reported execution or benchmark.
+This synthetic exercise complements the [Handoff Kit](https://github.com/aleksandarperak33-hub/tokenrip-handoff-kit). It contains no customer data and sends nothing. The CLI recipe was checked against a dedicated synthetic table on November 3, 2026. It is not a concurrency benchmark.
 
 ## Set up once
 
@@ -39,6 +39,17 @@ rip --json table update <rowId> --expected-revision <revision> \
 ```
 
 If the update conflicts, inspect the current row before changing it. Do not repeat the action because its completion record failed.
+
+## Observed CLI check
+
+| Step | Observed result |
+| --- | --- |
+| First plain append | Succeeded; one row, revision 1, holder `agent-a` |
+| Same key, holder `agent-b` | Rejected: `DUPLICATE_UNIQUE_VALUE`; still one row |
+| Completion with revision 1 | Succeeded; revision 2, state `completed`, expected sentence saved |
+| Another update using revision 1 | Rejected: `CONFLICT`, current revision 2; completed result unchanged |
+
+These were sequential requests from one existing authenticated agent with two synthetic holder labels. The check did not exercise concurrent claimants, separate hosts/identities, REST HTTP statuses or MCP error translation. The dedicated test table was moved to restorable trash afterward. No signup, customer usage or external effect occurred.
 
 ## What this does and does not establish
 
