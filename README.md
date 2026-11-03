@@ -16,6 +16,10 @@ The optional Tokenrip workflow saves the record in a workspace, then asks a seco
 
 Success means useful work continued from the saved record. A signup or two reads by the same assistant does not prove that.
 
+## When two agents may act on the same handoff
+
+Read the [synthetic reservation example](examples/shared-agent-reservations.md) before coordinating an action that should be attempted once. It shows why a unique-key append differs from a read-then-write check, and why uncertain outcomes retain their claims.
+
 ## Install the agent skill
 
 For tools supporting the Agent Skills format, inspect [SKILL.md](skills/tokenrip-handoff/SKILL.md), then install it in the project you choose:
