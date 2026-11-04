@@ -1,0 +1,27 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+test('both quick starts copy their visible prompt and preserve active editor content',async()=>{
+ const html=await readFile(new URL('../site/index.html',import.meta.url),'utf8');
+ const elements=new Map();
+ for(const [,id] of html.matchAll(/id="([^"]+)"/g)) elements.set(id,{value:'',textContent:'',disabled:false,listeners:{},addEventListener(event,fn){this.listeners[event]=fn;},setAttribute(){}});
+ for(const id of ['goal','state','decision','evidence','next','done']) elements.get(id).value='My existing '+id;
+ globalThis.document={getElementById:id=>{assert.ok(elements.has(id),`missing ${id}`);return elements.get(id);}};
+ const copied=[];
+ Object.defineProperty(globalThis,'navigator',{configurable:true,value:{clipboard:{async writeText(text){copied.push(text);}}}});
+ globalThis.location={search:''};
+ await import('../site/app.mjs');
+ const before=elements.get('goal').value;
+ await elements.get('copy-current-task').listeners.click();
+ assert.equal(copied[0],elements.get('current-task-preview').value);
+ assert.match(copied[0],/If our current task is unclear, ask me/);
+ assert.match(copied[0],/normal sign-in and host approval/);
+ assert.match(copied[0],/do not invent one/);
+ assert.match(copied[0],/Fetch the note you just saved/);
+ assert.match(copied[0],/Leave out secrets/);
+ await elements.get('copy-quick-start').listeners.click();
+ assert.equal(copied[1],elements.get('quick-start-preview').value);
+ assert.match(copied[1],/fictional appointment app/);
+ assert.equal(elements.get('goal').value,before);
+ assert.match(elements.get('current-task-status').textContent,/Copied/);
+});
