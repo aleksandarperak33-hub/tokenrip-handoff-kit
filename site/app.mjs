@@ -7,7 +7,14 @@ $('record-ref').addEventListener('input',render);
 $('handoff-form').addEventListener('submit',e=>e.preventDefault());
 $('load').addEventListener('click',()=>{if(fields.some(k=>$(k).value.trim())&&!window.confirm('Replace the current fields with a fictional example?'))return;const ex=examples[$('example').value];fields.forEach(k=>$(k).value=ex[k]);render();});
 async function copy(text,status){try{await navigator.clipboard.writeText(text);$(status).textContent='Copied. Paste into the assistant you choose.';}catch{const area=document.createElement('textarea');area.value=text;area.readOnly=true;area.setAttribute('aria-label','Text to copy manually');area.style.cssText='width:100%;min-height:180px';const old=$(status).querySelector('textarea');if(old)old.remove();$(status).textContent='Clipboard is unavailable. Select and copy this text:';$(status).appendChild(area);area.focus();area.select();}}
-const quickStartPrompt=setupPrompt(examples.launch);
+const quickStartPrompt=`Read https://tokenrip.com/setup and help me connect to Tokenrip using the email I provide.
+
+Save a new private record titled "First Tokenrip task" with:
+Task: Write a launch email for a fictional appointment app.
+Decision: Focus on solo operators. Team calendars are not available.
+Next step: Remove team-calendar promises from the draft.
+
+Use a suitable private workspace; ask me to choose only if needed. Read this exact saved record back and show me its decision, next step and ordinary record link. Stop after readback. Do not draft or send the email.`;
 $('quick-start-preview').value=quickStartPrompt;
 $('copy-quick-start').addEventListener('click',()=>copy(quickStartPrompt,'quick-start-status'));
 $('copy').addEventListener('click',()=>copy(handoff(input()),'copy-status'));
