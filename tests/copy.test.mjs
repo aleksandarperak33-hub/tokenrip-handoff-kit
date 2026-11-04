@@ -16,7 +16,9 @@ test('both quick starts copy their visible prompt and preserve active editor con
  assert.equal(copied[0],elements.get('current-task-preview').value);
  assert.match(copied[0],/If our current task is unclear, ask me/);
  assert.match(copied[0],/normal sign-in and host approval/);
- assert.match(copied[0],/do not invent one/);
+ assert.match(copied[0],/record "No decision approved yet"/);
+ assert.match(copied[0],/record "Next step not established"/);
+ assert.match(copied[0],/Do not invent approval or an action/);
  assert.match(copied[0],/Fetch the note you just saved/);
  assert.match(copied[0],/Leave out secrets/);
  await elements.get('copy-quick-start').listeners.click();

@@ -17,7 +17,7 @@ Next step: Remove team-calendar promises from the draft.
 Use a suitable private workspace; ask me to choose only if needed. Read this exact saved record back and show me its decision, next step and ordinary record link. Stop after readback. Do not draft or send the email.`;
 const currentTaskPrompt=`Read https://tokenrip.com/setup and help me connect this assistant using the normal sign-in and host approval steps. If our current task is unclear, ask me which task to save before writing anything.
 
-Save a new private note with our current goal, the decision I explicitly approved and the next step. Ask if an approved decision or next step is missing; do not invent one. Leave out secrets and sensitive client details. Use a suitable private workspace, asking me to choose only if needed.
+Save a new private note with our current goal, the decision I explicitly approved and the next step. If no decision has been approved, record "No decision approved yet". If no next step is established, record "Next step not established". Do not invent approval or an action. Leave out secrets and sensitive client details. Use a suitable private workspace, asking me to choose only if needed.
 
 Fetch the note you just saved, show me its contents and ordinary link, then stop. Do not perform the next step yet.`;
 $('current-task-preview').value=currentTaskPrompt;
