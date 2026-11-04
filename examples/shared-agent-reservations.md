@@ -55,7 +55,7 @@ These were sequential requests from one existing authenticated agent with two sy
 
 A read-then-write check can race. A plain append with an enforced unique key chooses one claimant at the write. Normalize the key identically across agents; different spellings are different actions.
 
-Keep the reservation if an action's outcome is uncertain. A crash after reservation can leave work unfinished. This procedure favors avoiding duplicate attempts; it does not guarantee completion, roll back an external effect, stop an agent that ignores the procedure, or provide a cross-service transaction. Do not expire or delete claims automatically for irreversible actions.
+Keep the reservation if an action's outcome is uncertain. If a process crashes after a send but before recording completion, inspect destination receipts and reconcile the outcome before retrying. Use destination idempotency only where supported, within its documented retention and parameter rules. A crash after reservation can also leave work unfinished. This procedure favors avoiding duplicate attempts; it does not guarantee completion, roll back an external effect, stop an agent that ignores the procedure, or provide a cross-service transaction. Do not expire or delete claims automatically for irreversible actions.
 
 To try the exercise, [connect your agent](https://tokenrip.com/setup), choose a dedicated workspace, and ask it to explain the reservation before running these synthetic commands. Agents remain in their existing hosts.
 
