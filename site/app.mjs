@@ -7,6 +7,9 @@ $('record-ref').addEventListener('input',render);
 $('handoff-form').addEventListener('submit',e=>e.preventDefault());
 $('load').addEventListener('click',()=>{if(fields.some(k=>$(k).value.trim())&&!window.confirm('Replace the current fields with a fictional example?'))return;const ex=examples[$('example').value];fields.forEach(k=>$(k).value=ex[k]);render();});
 async function copy(text,status){try{await navigator.clipboard.writeText(text);$(status).textContent='Copied. Paste into the assistant you choose.';}catch{const area=document.createElement('textarea');area.value=text;area.readOnly=true;area.setAttribute('aria-label','Text to copy manually');area.style.cssText='width:100%;min-height:180px';const old=$(status).querySelector('textarea');if(old)old.remove();$(status).textContent='Clipboard is unavailable. Select and copy this text:';$(status).appendChild(area);area.focus();area.select();}}
+const quickStartPrompt=setupPrompt(examples.launch);
+$('quick-start-preview').value=quickStartPrompt;
+$('copy-quick-start').addEventListener('click',()=>copy(quickStartPrompt,'quick-start-status'));
 $('copy').addEventListener('click',()=>copy(handoff(input()),'copy-status'));
 $('copy-setup').addEventListener('click',()=>copy(setupPrompt(input()),'setup-status'));
 $('copy-continue').addEventListener('click',()=>copy(continuationPrompt($('record-ref').value),'setup-status'));

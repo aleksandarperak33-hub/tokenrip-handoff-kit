@@ -4,14 +4,20 @@ A small, free tool for carrying one task between AI assistants. It turns six pie
 
 **[Try the browser tool](https://bundles.tokenrip.com/345c9d58-c84b-47f8-9ad2-427d9e8ad16e/?from=github)** — no account needed. Copy or download the handoff and use it anywhere.
 
-The optional Tokenrip workflow saves the record in a workspace, then asks a second assistant to read it before continuing. [Tokenrip](https://tokenrip.com/) stores shared work; it does not execute the assistants. Its [free plan](https://tokenrip.com/pricing) currently includes 1 GB. Your assistant may have separate requirements.
+The optional Tokenrip workflow starts with one assistant saving a new record in a workspace and fetching that exact record back. A second assistant is optional after readback succeeds. [Tokenrip](https://tokenrip.com/) stores shared work; it does not execute the assistants. Its [free plan](https://tokenrip.com/pricing) currently includes 1 GB. Your assistant may have separate requirements.
+
+## Start with one assistant
+
+Use **Copy fictional brief setup prompt** above the editor. It works with all six fields blank and does not replace any custom input. Paste it into Claude Code or Codex, follow the current official setup if needed and complete Tokenrip email sign-in. Requesting a code alone does not finish sign-in; a new email creates an account when sign-in finishes. Choose a workspace and check its access, then save the fictional launch brief as a new record.
+
+The prompt asks the same assistant to fetch that exact saved record back, summarize its task, decision and next action, and return its ordinary record ID/link. It stops before doing the next action. A successful save/readback is a first-use check, not evidence of a second-assistant handoff. Connecting another assistant is optional afterward; host compatibility still needs to be checked.
 
 ## Try one real task
 
 1. Open the tool. Start with your current work, or load a clearly labeled fictional example.
 2. Fill all six fields. The check only verifies that fields are filled, not that their content is correct.
 3. Copy the handoff into your next assistant, or copy the Tokenrip setup + task prompt into your first assistant.
-4. With Tokenrip, use the workspace you choose. Ask your connected assistant for the current connection instructions for your second assistant.
+4. With Tokenrip, choose a workspace and check its access. Save a new record and verify its exact readback first. Optionally ask your connected assistant for the current connection instructions for your second assistant.
 5. Paste the exact saved artifact ID or ordinary `https://tokenrip.com/s/…` link into the kit. Copy the continuation prompt into the second assistant; it must read that record, state the decision and next action, then do the authorized next step and save the evidence. If no record reference is supplied, it asks instead of selecting the newest note. Never paste a sign-in link or connection code into this field.
 
 Success means useful work continued from the saved record. A signup or two reads by the same assistant does not prove that.
