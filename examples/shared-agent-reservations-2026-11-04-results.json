@@ -1,0 +1,70 @@
+{
+  "experiment": "Bounded two-process unique-key claim check",
+  "date_utc": "2026-11-04",
+  "cli_version": "2.6.14",
+  "provenance": "An AI assistant prepared and ran this synthetic check for Tokenrip\u2019s cofounder.",
+  "environment": {
+    "hosts": 1,
+    "authenticated_agents": 1,
+    "holder_labels": 2,
+    "table_audience": "Tokenrip team internal",
+    "synthetic_data_only": true
+  },
+  "method": {
+    "rounds": 3,
+    "workers_per_round": 2,
+    "start_barrier_participants": 3,
+    "barrier_timeout_seconds": 15,
+    "cli_invocation_timeout_seconds": 60,
+    "overall_bound_seconds": 240,
+    "operation": "One plain append per worker, same unique key within a round, fresh key each round; no upsert.",
+    "readback": "After both CLI invocations completed, read the exact key and compare the single row with the successful receipt; final table read found three rows.",
+    "timing_definition": "Each measured interval starts immediately after Popen returned and ends immediately after communicate completed. Overlap is the earliest interval end minus the latest interval start. It is not an instrumented process lifetime, network-request interval or server-transaction interval."
+  },
+  "aggregate_outcomes": {
+    "rounds_completed": 3,
+    "successful_appends": 3,
+    "duplicate_unique_refusals": 3,
+    "rows_per_round": 1,
+    "final_table_rows": 3,
+    "normal_cli_invocations": 13,
+    "unknown_outcomes": 0,
+    "backoff_messages_observed": false,
+    "retries_by_harness": 0,
+    "external_actions": 0
+  },
+  "rounds": [
+    {
+      "round": 1,
+      "accepted_appends": 1,
+      "duplicate_unique_refusals": 1,
+      "readback_rows": 1,
+      "readback_matches_successful_receipt": true,
+      "cli_invocation_interval_overlap_ms": 527.805
+    },
+    {
+      "round": 2,
+      "accepted_appends": 1,
+      "duplicate_unique_refusals": 1,
+      "readback_rows": 1,
+      "readback_matches_successful_receipt": true,
+      "cli_invocation_interval_overlap_ms": 803.379
+    },
+    {
+      "round": 3,
+      "accepted_appends": 1,
+      "duplicate_unique_refusals": 1,
+      "readback_rows": 1,
+      "readback_matches_successful_receipt": true,
+      "cli_invocation_interval_overlap_ms": 555.695
+    }
+  ],
+  "limits": [
+    "The two CLI processes shared one existing authenticated agent on one host.",
+    "Overlapping CLI invocation intervals do not establish overlapping network requests or backend transactions.",
+    "Three pairs are a bounded functional check, not a load, latency or concurrency benchmark or proof for every possible race.",
+    "No separate-host or separate-identity test, external action, crash, timeout recovery, REST HTTP-status verification or MCP error-translation test was performed.",
+    "The CLI can resend certain pre-work refusals; no backoff messages were observed. Network request counts were not measured.",
+    "A successful reservation does not guarantee completion or exactly-once external effects."
+  ]
+}

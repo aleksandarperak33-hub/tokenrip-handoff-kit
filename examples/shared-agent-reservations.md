@@ -60,3 +60,22 @@ Keep the reservation if an action's outcome is uncertain. If a process crashes a
 To try the exercise, [connect your agent](https://tokenrip.com/setup), choose a dedicated workspace, and ask it to explain the reservation before running these synthetic commands. Agents remain in their existing hosts.
 
 Sources: [Tables and coordination](https://docs.tokenrip.com/concepts/tables), [MCP write requirements](https://docs.tokenrip.com/getting-started/mcp-server#where-to-start), and current official `rip artifact publish`, `table append` and `table update` command help. AI assistance was used to prepare this example.
+
+
+## Follow-up: two-process claim check, November 4, 2026 UTC
+
+An AI assistant ran three pairs of local Tokenrip CLI 2.6.14 processes against a new strict-schema table containing only fictional records, internal to the Tokenrip team. This is a separate follow-up to the sequential November 3 check above. Both processes used the same existing authenticated agent on one host, with two synthetic holder labels.
+
+For each pair, two workers and their coordinator met at a start barrier. Each worker then invoked one plain append, without `--upsert`, using the same unique key. Each new pair used a fresh key. After both invocations completed, a read of that key compared the persisted row with the successful receipt. A final table read checked that only the three expected rows existed.
+
+| Pair | Accepted appends | Duplicate refusals | Rows read back | CLI invocation interval overlap |
+| --- | --- | --- | --- | --- |
+| 1 | 1 | 1 | 1 | 527.805 ms |
+| 2 | 1 | 1 | 1 | 803.379 ms |
+| 3 | 1 | 1 | 1 | 555.695 ms |
+
+Each accepted append exited successfully and returned one created row. Each other invocation exited with `DUPLICATE_UNIQUE_VALUE`. Each readback contained exactly one reserved row matching the successful receipt's row ID, holder and revision. The final read contained three rows. No backoff messages were observed, and the harness performed no retries. The check used 13 normal CLI invocations, not a measured count of network requests. No external action or completion update was attempted; the synthetic table was retained internally for receipt review.
+
+The measured intervals run from immediately after `Popen` returned to immediately after `communicate` completed. Their overlap establishes overlapping **CLI invocation intervals**, not instrumented process lifetimes, simultaneous network requests or overlapping server transactions. The bounds were 15 seconds at the barrier, 60 seconds per CLI invocation and 240 seconds overall. These three pairs are a bounded functional check, not a load, latency or concurrency benchmark or proof for every possible race. They did not test separate hosts or authenticated identities, crashes, timeout recovery, REST HTTP statuses or MCP error translation. A reservation still does not guarantee completion or exactly-once external effects.
+
+[Sanitized results and method](shared-agent-reservations-2026-11-04-results.json) omit internal workspace, table and row identifiers, process IDs, credentials and access links. No public guide command was changed by this follow-up.
